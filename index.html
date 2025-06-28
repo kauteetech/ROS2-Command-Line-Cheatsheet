@@ -7,91 +7,90 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Custom styles for Inter font and some default spacing */
+        /* Custom styles for Inter font */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc; /* Lighter, soothing background */
             color: #3f4a59; /* Slightly darker grey for main text */
             line-height: 1.6;
+            display: flex; /* Use flexbox for sidebar layout */
+            min-height: 100vh; /* Ensure full viewport height */
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+        .sidebar {
+            width: 280px; /* Fixed width for sidebar */
+            background-color: #ffffff;
             padding: 2rem;
-        }
-        .section-container {
-            margin-bottom: 1.5rem; /* More space between sections */
-        }
-        .section-header {
-            cursor: pointer;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05); /* Shadow on the right */
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.25rem 1.75rem; /* Increased padding */
-            background-color: #ffffff;
-            border-bottom: 1px solid #e2e8f0;
-            border-radius: 0.75rem; /* More rounded corners */
-            transition: all 0.3s ease;
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04); /* Softer, more prominent shadow */
+            flex-direction: column;
+            border-right: 1px solid #e0e7ee;
         }
-        .section-header:hover {
-            background-color: #f0f4f8; /* Subtle hover effect */
-            transform: translateY(-2px); /* Slight lift on hover */
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.06);
+        .main-content {
+            flex-grow: 1; /* Take remaining space */
+            padding: 2rem;
+            max-width: calc(100% - 280px); /* Adjust max-width based on sidebar */
+            overflow-y: auto; /* Enable scrolling for content */
         }
+        .sidebar-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.5rem; /* Slightly rounded corners for sidebar items */
+            font-weight: 500;
+            color: #607d8b; /* Muted text color */
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .sidebar-item:hover {
+            background-color: #e3f2fd; /* Light blue hover */
+            color: #2c3e50; /* Darker text on hover */
+            transform: translateX(3px); /* Subtle slide effect */
+        }
+        .sidebar-item.active {
+            background-color: #dbeafe; /* More prominent active state */
+            color: #1e40af; /* Dark blue for active text */
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
         .section-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.7s ease-in-out, padding 0.7s ease-in-out; /* Slower transition for smoothness */
-            padding: 0 1.75rem; /* Consistent padding */
+            display: none; /* Hide all content sections by default */
+            padding: 1.5rem;
             background-color: #ffffff;
-            border-bottom-left-radius: 0.75rem; /* Rounded bottom corners */
-            border-bottom-right-radius: 0.75rem;
+            border-radius: 0.75rem;
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
-            margin-top: -0.75rem; /* Overlap with header for cleaner look */
-            position: relative;
-            z-index: -1; /* Place content behind header shadow */
-            padding-top: 0; /* No top padding when collapsed */
         }
-        .section-content.expanded {
-            max-height: 2000px; /* Arbitrary large value to allow expansion */
-            padding-top: 1.75rem; /* Add top padding when expanded */
-            padding-bottom: 1.75rem; /* Add bottom padding when expanded */
+        .section-content.active {
+            display: block; /* Show active content section */
         }
-        .arrow {
-            transition: transform 0.4s ease;
-            color: #607d8b; /* Muted arrow color */
-        }
-        .arrow.rotate {
-            transform: rotate(90deg);
-        }
+
         table {
             width: 100%;
-            border-collapse: separate; /* Use separate to allow border-radius on cells */
-            border-spacing: 0; /* Remove space between cells */
+            border-collapse: separate;
+            border-spacing: 0;
             margin-top: 1.5rem;
             border-radius: 0.5rem;
-            overflow: hidden; /* Ensures rounded corners are applied */
+            overflow: hidden;
         }
         th, td {
-            border: 1px solid #e0e7ee; /* Lighter border color */
-            padding: 1rem 1.25rem; /* Consistent padding */
+            border: 1px solid #e0e7ee;
+            padding: 1rem 1.25rem;
             text-align: left;
         }
         th {
-            background-color: #e3f2fd; /* Light blue header */
-            font-weight: 700; /* Bolder font for headers */
-            color: #2c3e50; /* Darker text for header for contrast */
+            background-color: #e3f2fd;
+            font-weight: 700;
+            color: #2c3e50;
         }
         tr:nth-child(even) {
-            background-color: #f7f9fc; /* Very light alternative row color */
+            background-color: #f7f9fc;
         }
         code {
-            background-color: #f0f4f8; /* Lighter code background */
-            padding: 0.25em 0.5em; /* Slightly more padding */
-            border-radius: 0.375rem; /* More rounded corners */
+            background-color: #f0f4f8;
+            padding: 0.25em 0.5em;
+            border-radius: 0.375rem;
             font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-            color: #c0392b; /* Muted red for inline code */
+            color: #c0392b;
             font-weight: 500;
         }
         pre code {
@@ -99,480 +98,443 @@
             padding: 1.25rem;
             overflow-x: auto;
             border-radius: 0.75rem;
-            background-color: #263238; /* Darker background for code blocks */
-            color: #eceff1; /* Lighter text for code */
+            background-color: #263238;
+            color: #eceff1;
             margin-top: 1rem;
-            white-space: pre-wrap; /* Wrap long lines */
+            white-space: pre-wrap;
             word-break: break-all;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Inner shadow for depth */
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
         }
         h1 {
-            color: #2c3e50; /* Deep blue for main title */
-            letter-spacing: -0.025em; /* Tighter letter spacing */
+            color: #2c3e50;
+            letter-spacing: -0.025em;
+            margin-bottom: 2rem; /* Adjusted margin for sidebar context */
         }
         h2 {
-            color: #466e8f; /* Softer blue for section titles */
+            color: #466e8f;
+            margin-bottom: 1.5rem; /* Space below content section title */
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1 class="text-4xl font-bold text-center mb-8">ROS 2 Command Line Cheatsheet</h1>
-        <p class="text-center text-lg mb-10 text-gray-700">
-            A quick reference for frequently used `ros2` command-line tools, essential for developing, debugging, and interacting with ROS 2 applications.
-        </p>
+    <div class="sidebar">
+        <h1 class="text-2xl font-bold text-center">ROS 2 Cheatsheet</h1>
+        <p class="text-sm text-center mb-6 text-gray-500">Quick Reference</p>
 
+        <a href="#" class="sidebar-item active" data-section="nodes">1. Nodes</a>
+        <a href="#" class="sidebar-item" data-section="topics">2. Topics</a>
+        <a href="#" class="sidebar-item" data-section="services">3. Services</a>
+        <a href="#" class="sidebar-item" data-section="parameters">4. Parameters</a>
+        <a href="#" class="sidebar-item" data-section="actions">5. Actions</a>
+        <a href="#" class="sidebar-item" data-section="build_workspace">6. Build & Workspace</a>
+        <a href="#" class="sidebar-item" data-section="introspection_debug">7. Introspection & Debugging</a>
+        <a href="#" class="sidebar-item" data-section="launching">8. Launching</a>
+        <a href="#" class="sidebar-item" data-section="important_considerations">Important Considerations</a>
+    </div>
+
+    <div class="main-content">
         <!-- Node Section -->
-        <div class="section-container">
-            <div class="section-header" onclick="toggleSection('nodes')">
-                <h2 class="text-2xl font-semibold">1. Nodes (`ros2 node`)</h2>
-                <span class="arrow text-2xl">&#9654;</span>
-            </div>
-            <div id="nodes-content" class="section-content">
-                <p class="mb-4 text-gray-700">Nodes are the fundamental execution units in ROS 2.</p>
-                <div class="overflow-x-auto rounded-lg shadow-inner">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Command</th>
-                                <th>Description</th>
-                                <th>Example</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>ros2 node list</code></td>
-                                <td>Lists all active ROS 2 nodes in the current domain.</td>
-                                <td><pre><code>ros2 node list</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>ros2 node info &lt;node_name&gt;</code></td>
-                                <td>Displays information about a specific node (subscriptions, publications, services, actions, parameters).</td>
-                                <td><pre><code>ros2 node info /turtlesim</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>ros2 run &lt;pkg_name&gt; &lt;executable_name&gt;</code></td>
-                                <td>Runs an executable (node) from a specified package.</td>
-                                <td><pre><code>ros2 run turtlesim turtlesim_node</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>ros2 run &lt;pkg_name&gt; &lt;exec_name&gt; --ros-args -r __node:=&lt;new_name&gt;</code></td>
-                                <td>Runs a node with a remapped name.</td>
-                                <td><pre><code>ros2 run turtlesim turtlesim_node --ros-args -r __node:=my_turtle</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>ros2 run &lt;pkg_name&gt; &lt;exec_name&gt; --ros-args -p &lt;param_name&gt;:=&lt;value&gt;</code></td>
-                                <td>Runs a node setting an initial parameter value.</td>
-                                <td><pre><code>ros2 run my_pkg my_node --ros-args -p my_param:=10.0</code></pre></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        <div id="nodes-content" class="section-content active">
+            <h2 class="text-2xl font-semibold">1. Nodes (`ros2 node`)</h2>
+            <p class="mb-4 text-gray-700">Nodes are the fundamental execution units in ROS 2.</p>
+            <div class="overflow-x-auto rounded-lg shadow-inner">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Command</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>ros2 node list</code></td>
+                            <td>Lists all active ROS 2 nodes in the current domain.</td>
+                            <td><pre><code>ros2 node list</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>ros2 node info &lt;node_name&gt;</code></td>
+                            <td>Displays information about a specific node (subscriptions, publications, services, actions, parameters).</td>
+                            <td><pre><code>ros2 node info /turtlesim</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>ros2 run &lt;pkg_name&gt; &lt;executable_name&gt;</code></td>
+                            <td>Runs an executable (node) from a specified package.</td>
+                            <td><pre><code>ros2 run turtlesim turtlesim_node</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>ros2 run &lt;pkg_name&gt; &lt;exec_name&gt; --ros-args -r __node:=&lt;new_name&gt;</code></td>
+                            <td>Runs a node with a remapped name.</td>
+                            <td><pre><code>ros2 run turtlesim turtlesim_node --ros-args -r __node:=my_turtle</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>ros2 run &lt;pkg_name&gt; &lt;exec_name&gt; --ros-args -p &lt;param_name&gt;:=&lt;value&gt;</code></td>
+                            <td>Runs a node setting an initial parameter value.</td>
+                            <td><pre><code>ros2 run my_pkg my_node --ros-args -p my_param:=10.0</code></pre></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
         <!-- Topics Section -->
-        <div class="section-container">
-            <div class="section-header" onclick="toggleSection('topics')">
-                <h2 class="text-2xl font-semibold">2. Topics (`ros2 topic`)</h2>
-                <span class="arrow text-2xl">&#9654;</span>
-            </div>
-            <div id="topics-content" class="section-content">
-                <p class="mb-4 text-gray-700">Topics are the main communication mechanism for asynchronous, many-to-many data streams.</p>
-                <div class="overflow-x-auto rounded-lg shadow-inner">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Command</th>
-                                <th>Description</th>
-                                <th>Example</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>ros2 topic list</code></td>
-                                <td>Lists all active topics.</td>
-                                <td><pre><code>ros2 topic list</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>ros2 topic list -t</code></td>
-                                <td>Lists all active topics with their message types.</td>
-                                <td><pre><code>ros2 topic list -t</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>ros2 topic info &lt;topic_name&gt;</code></td>
-                                <td>Displays information about a specific topic (publishers, subscribers, message type).</td>
-                                <td><pre><code>ros2 topic info /turtle1/cmd_vel</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>ros2 topic echo &lt;topic_name&gt;</code></td>
-                                <td>Displays messages being published on a topic in real-time.</td>
-                                <td><pre><code>ros2 topic echo /turtle1/pose</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>ros2 topic pub &lt;topic_name&gt; &lt;msg_type&gt; &lt;args&gt;</code></td>
-                                <td>Publishes data to a topic from the command line (for testing).</td>
-                                <td><pre><code>ros2 topic pub /turtle1/cmd_vel geometry_msgs/msg/Twist '{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 1.8}}'</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>ros2 topic hz &lt;topic_name&gt;</code></td>
-                                <td>Reports the publishing rate of a topic.</td>
-                                <td><pre><code>ros2 topic hz /turtle1/pose</code></pre></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        <div id="topics-content" class="section-content">
+            <h2 class="text-2xl font-semibold">2. Topics (`ros2 topic`)</h2>
+            <p class="mb-4 text-gray-700">Topics are the main communication mechanism for asynchronous, many-to-many data streams.</p>
+            <div class="overflow-x-auto rounded-lg shadow-inner">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Command</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>ros2 topic list</code></td>
+                            <td>Lists all active topics.</td>
+                            <td><pre><code>ros2 topic list</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>ros2 topic list -t</code></td>
+                            <td>Lists all active topics with their message types.</td>
+                            <td><pre><code>ros2 topic list -t</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>ros2 topic info &lt;topic_name&gt;</code></td>
+                            <td>Displays information about a specific topic (publishers, subscribers, message type).</td>
+                            <td><pre><code>ros2 topic info /turtle1/cmd_vel</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>ros2 topic echo &lt;topic_name&gt;</code></td>
+                            <td>Displays messages being published on a topic in real-time.</td>
+                            <td><pre><code>ros2 topic echo /turtle1/pose</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>ros2 topic pub &lt;topic_name&gt; &lt;msg_type&gt; &lt;args&gt;</code></td>
+                            <td>Publishes data to a topic from the command line (for testing).</td>
+                            <td><pre><code>ros2 topic pub /turtle1/cmd_vel geometry_msgs/msg/Twist '{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 1.8}}'</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>ros2 topic hz &lt;topic_name&gt;</code></td>
+                            <td>Reports the publishing rate of a topic.</td>
+                            <td><pre><code>ros2 topic hz /turtle1/pose</code></pre></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
         <!-- Services Section -->
-        <div class="section-container">
-            <div class="section-header" onclick="toggleSection('services')">
-                <h2 class="text-2xl font-semibold">3. Services (`ros2 service`)</h2>
-                <span class="arrow text-2xl">&#9654;</span>
-            </div>
-            <div id="services-content" class="section-content">
-                <p class="mb-4 text-gray-700">Services provide a request/response communication pattern, similar to a function call.</p>
-                <div class="overflow-x-auto rounded-lg shadow-inner">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Command</th>
-                                <th>Description</th>
-                                <th>Example</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>ros2 service list</code></td>
-                                <td>Lists all active services.</td>
-                                <td><pre><code>ros2 service list</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>ros2 service list -t</code></td>
-                                <td>Lists all active services with their types.</td>
-                                <td><pre><code>ros2 service list -t</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>ros2 service info &lt;service_name&gt;</code></td>
-                                <td>Displays information about a specific service.</td>
-                                <td><pre><code>ros2 service info /spawn</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>ros2 service call &lt;service_name&gt; &lt;srv_type&gt; &lt;args&gt;</code></td>
-                                <td>Calls a service with specified arguments.</td>
-                                <td><pre><code>ros2 service call /spawn turtlesim/srv/Spawn "{x: 2.0, y: 2.0, theta: 0.0, name: 'my_new_turtle'}"</code></pre></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        <div id="services-content" class="section-content">
+            <h2 class="text-2xl font-semibold">3. Services (`ros2 service`)</h2>
+            <p class="mb-4 text-gray-700">Services provide a request/response communication pattern, similar to a function call.</p>
+            <div class="overflow-x-auto rounded-lg shadow-inner">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Command</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>ros2 service list</code></td>
+                            <td>Lists all active services.</td>
+                            <td><pre><code>ros2 service list</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>ros2 service list -t</code></td>
+                            <td>Lists all active services with their types.</td>
+                            <td><pre><code>ros2 service list -t</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>ros2 service info &lt;service_name&gt;</code></td>
+                            <td>Displays information about a specific service.</td>
+                            <td><pre><code>ros2 service info /spawn</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>ros2 service call &lt;service_name&gt; &lt;srv_type&gt; &lt;args&gt;</code></td>
+                            <td>Calls a service with specified arguments.</td>
+                            <td><pre><code>ros2 service call /spawn turtlesim/srv/Spawn "{x: 2.0, y: 2.0, theta: 0.0, name: 'my_new_turtle'}"</code></pre></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
         <!-- Parameters Section -->
-        <div class="section-container">
-            <div class="section-header" onclick="toggleSection('parameters')">
-                <h2 class="text-2xl font-semibold">4. Parameters (`ros2 param`)</h2>
-                <span class="arrow text-2xl">&#9654;</span>
-            </div>
-            <div id="parameters-content" class="section-content">
-                <p class="mb-4 text-gray-700">Parameters are used to configure the behavior of nodes at runtime.</p>
-                <div class="overflow-x-auto rounded-lg shadow-inner">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Command</th>
-                                <th>Description</th>
-                                <th>Example</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>ros2 param list</code></td>
-                                <td>Lists all parameters available on active nodes.</td>
-                                <td><pre><code>ros2 param list</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>ros2 param get &lt;node_name&gt; &lt;param_name&gt;</code></td>
-                                <td>Gets the value of a specific parameter from a node.</td>
-                                <td><pre><code>ros2 param get /turtlesim background_r</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>ros2 param set &lt;node_name&gt; &lt;param_name&gt; &lt;value&gt;</code></td>
-                                <td>Sets the value of a specific parameter on a node.</td>
-                                <td><pre><code>ros2 param set /turtlesim background_r 255</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>ros2 param dump &lt;node_name&gt;</code></td>
-                                <td>Dumps all parameters of a node to a YAML file.</td>
-                                <td><pre><code>ros2 param dump /turtlesim > turtlesim.yaml</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>ros2 param load &lt;node_name&gt; &lt;file&gt;</code></td>
-                                <td>Loads parameters from a YAML file to a node.</td>
-                                <td><pre><code>ros2 param load /turtlesim turtlesim.yaml</code></pre></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        <div id="parameters-content" class="section-content">
+            <h2 class="text-2xl font-semibold">4. Parameters (`ros2 param`)</h2>
+            <p class="mb-4 text-gray-700">Parameters are used to configure the behavior of nodes at runtime.</p>
+            <div class="overflow-x-auto rounded-lg shadow-inner">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Command</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>ros2 param list</code></td>
+                            <td>Lists all parameters available on active nodes.</td>
+                            <td><pre><code>ros2 param list</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>ros2 param get &lt;node_name&gt; &lt;param_name&gt;</code></td>
+                            <td>Gets the value of a specific parameter from a node.</td>
+                            <td><pre><code>ros2 param get /turtlesim background_r</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>ros2 param set &lt;node_name&gt; &lt;param_name&gt; &lt;value&gt;</code></td>
+                            <td>Sets the value of a specific parameter on a node.</td>
+                            <td><pre><code>ros2 param set /turtlesim background_r 255</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>ros2 param dump &lt;node_name&gt;</code></td>
+                            <td>Dumps all parameters of a node to a YAML file.</td>
+                            <td><pre><code>ros2 param dump /turtlesim > turtlesim.yaml</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>ros2 param load &lt;node_name&gt; &lt;file&gt;</code></td>
+                            <td>Loads parameters from a YAML file to a node.</td>
+                            <td><pre><code>ros2 param load /turtlesim turtlesim.yaml</code></pre></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
         <!-- Actions Section -->
-        <div class="section-container">
-            <div class="section-header" onclick="toggleSection('actions')">
-                <h2 class="text-2xl font-semibold">5. Actions (`ros2 action`)</h2>
-                <span class="arrow text-2xl">&#9654;</span>
-            </div>
-            <div id="actions-content" class="section-content">
-                <p class="mb-4 text-gray-700">Actions are used for long-running, interruptible tasks (e.g., navigating to a goal).</p>
-                <div class="overflow-x-auto rounded-lg shadow-inner">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Command</th>
-                                <th>Description</th>
-                                <th>Example</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>ros2 action list</code></td>
-                                <td>Lists all active actions.</td>
-                                <td><pre><code>ros2 action list</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>ros2 action list -t</code></td>
-                                <td>Lists all active actions with their types.</td>
-                                <td><pre><code>ros2 action list -t</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>ros2 action info &lt;action_name&gt;</code></td>
-                                <td>Displays information about a specific action.</td>
-                                <td><pre><code>ros2 action info /turtle_action_server/rotate_absolute</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>ros2 action send_goal &lt;action_name&gt; &lt;action_type&gt; &lt;goal_args&gt;</code></td>
-                                <td>Sends a goal to an action server.</td>
-                                <td><pre><code>ros2 action send_goal /turtle_action_server/rotate_absolute turtlesim/action/RotateAbsolute "{theta: 1.57}"</code></pre></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        <div id="actions-content" class="section-content">
+            <h2 class="text-2xl font-semibold">5. Actions (`ros2 action`)</h2>
+            <p class="mb-4 text-gray-700">Actions are used for long-running, interruptible tasks (e.g., navigating to a goal).</p>
+            <div class="overflow-x-auto rounded-lg shadow-inner">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Command</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>ros2 action list</code></td>
+                            <td>Lists all active actions.</td>
+                            <td><pre><code>ros2 action list</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>ros2 action list -t</code></td>
+                            <td>Lists all active actions with their types.</td>
+                            <td><pre><code>ros2 action list -t</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>ros2 action info &lt;action_name&gt;</code></td>
+                            <td>Displays information about a specific action.</td>
+                            <td><pre><code>ros2 action info /turtle_action_server/rotate_absolute</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>ros2 action send_goal &lt;action_name&gt; &lt;action_type&gt; &lt;goal_args&gt;</code></td>
+                            <td>Sends a goal to an action server.</td>
+                            <td><pre><code>ros2 action send_goal /turtle_action_server/rotate_absolute turtlesim/action/RotateAbsolute "{theta: 1.57}"</code></pre></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
         <!-- Build and Workspace Management Section -->
-        <div class="section-container">
-            <div class="section-header" onclick="toggleSection('build_workspace')">
-                <h2 class="text-2xl font-semibold">6. Build and Workspace Management (`colcon`, `ros2 pkg`)</h2>
-                <span class="arrow text-2xl">&#9654;</span>
-            </div>
-            <div id="build_workspace-content" class="section-content">
-                <p class="mb-4 text-gray-700">Tools for building packages and managing ROS 2 workspaces.</p>
-                <div class="overflow-x-auto rounded-lg shadow-inner">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Command</th>
-                                <th>Description</th>
-                                <th>Example</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>colcon build</code></td>
-                                <td>Builds all packages in the current workspace.</td>
-                                <td><pre><code>cd ~/ros2_ws && colcon build</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>colcon build --packages-select &lt;pkg1&gt; &lt;pkg2&gt;</code></td>
-                                <td>Builds only selected packages.</td>
-                                <td><pre><code>colcon build --packages-select my_robot_control my_vision_pkg</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>colcon build --packages-up-to &lt;pkg_name&gt;</code></td>
-                                <td>Builds a package and all its dependencies.</td>
-                                <td><pre><code>colcon build --packages-up-to my_main_app</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>colcon build --symlink-install</code></td>
-                                <td>Builds, but symlinks installed files (useful for Python/non-compiled resources).</td>
-                                <td><pre><code>colcon build --symlink-install</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>colcon test</code></td>
-                                <td>Runs tests for packages in the workspace.</td>
-                                <td><pre><code>colcon test</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>colcon test-result</code></td>
-                                <td>Summarizes test results.</td>
-                                <td><pre><code>colcon test-result --verbose</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>ros2 pkg create &lt;pkg_name&gt;</code></td>
-                                <td>Creates a new ROS 2 package with basic structure.</td>
-                                <td><pre><code>ros2 pkg create --build-type ament_cmake my_new_cpp_pkg</code><br><code>ros2 pkg create --build-type ament_python my_new_py_pkg</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>source install/setup.bash</code></td>
-                                <td>Sources the local workspace environment (must be run in each new terminal).</td>
-                                <td><pre><code>cd ~/ros2_ws && source install/setup.bash</code></pre></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        <div id="build_workspace-content" class="section-content">
+            <h2 class="text-2xl font-semibold">6. Build and Workspace Management (`colcon`, `ros2 pkg`)</h2>
+            <p class="mb-4 text-gray-700">Tools for building packages and managing ROS 2 workspaces.</p>
+            <div class="overflow-x-auto rounded-lg shadow-inner">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Command</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>colcon build</code></td>
+                            <td>Builds all packages in the current workspace.</td>
+                            <td><pre><code>cd ~/ros2_ws && colcon build</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>colcon build --packages-select &lt;pkg1&gt; &lt;pkg2&gt;</code></td>
+                            <td>Builds only selected packages.</td>
+                            <td><pre><code>colcon build --packages-select my_robot_control my_vision_pkg</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>colcon build --packages-up-to &lt;pkg_name&gt;</code></td>
+                            <td>Builds a package and all its dependencies.</td>
+                            <td><pre><code>colcon build --packages-up-to my_main_app</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>colcon build --symlink-install</code></td>
+                            <td>Builds, but symlinks installed files (useful for Python/non-compiled resources).</td>
+                            <td><pre><code>colcon build --symlink-install</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>colcon test</code></td>
+                            <td>Runs tests for packages in the workspace.</td>
+                            <td><pre><code>colcon test</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>colcon test-result</code></td>
+                            <td>Summarizes test results.</td>
+                            <td><pre><code>colcon test-result --verbose</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>ros2 pkg create &lt;pkg_name&gt;</code></td>
+                            <td>Creates a new ROS 2 package with basic structure.</td>
+                            <td><pre><code>ros2 pkg create --build-type ament_cmake my_new_cpp_pkg</code><br><code>ros2 pkg create --build-type ament_python my_new_py_pkg</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>source install/setup.bash</code></td>
+                            <td>Sources the local workspace environment (must be run in each new terminal).</td>
+                            <td><pre><code>cd ~/ros2_ws && source install/setup.bash</code></pre></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
         <!-- Introspection and Debugging Section -->
-        <div class="section-container">
-            <div class="section-header" onclick="toggleSection('introspection_debug')">
-                <h2 class="text-2xl font-semibold">7. Introspection and Debugging (`ros2 doctor`, `rqt_graph`)</h2>
-                <span class="arrow text-2xl">&#9654;</span>
-            </div>
-            <div id="introspection_debug-content" class="section-content">
-                <p class="mb-4 text-gray-700">Tools to inspect the ROS 2 graph and diagnose issues.</p>
-                <div class="overflow-x-auto rounded-lg shadow-inner">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Command</th>
-                                <th>Description</th>
-                                <th>Example</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>ros2 doctor</code></td>
-                                <td>Diagnoses common issues in your ROS 2 environment.</td>
-                                <td><pre><code>ros2 doctor</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>ros2 doctor --report</code></td>
-                                <td>Provides a detailed report of your ROS 2 setup.</td>
-                                <td><pre><code>ros2 doctor --report</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>rqt_graph</code></td>
-                                <td>Visualizes the ROS 2 computation graph (nodes, topics, services, actions).</td>
-                                <td><pre><code>rqt_graph</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>rqt_console</code></td>
-                                <td>A GUI tool for viewing and filtering `rosout` (log) messages.</td>
-                                <td><pre><code>rqt_console</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>ros2 topic echo /rosout</code></td>
-                                <td>Streams all log messages from nodes to your terminal.</td>
-                                <td><pre><code>ros2 topic echo /rosout</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>ros2 param set /&lt;node_name&gt; logger_levels.&lt;logger_name&gt; DEBUG</code></td>
-                                <td>Changes the logging level of a specific logger on a running node.</td>
-                                <td><pre><code>ros2 param set /my_node logger_levels.rclpy DEBUG</code></pre></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        <div id="introspection_debug-content" class="section-content">
+            <h2 class="text-2xl font-semibold">7. Introspection and Debugging (`ros2 doctor`, `rqt_graph`)</h2>
+            <p class="mb-4 text-gray-700">Tools to inspect the ROS 2 graph and diagnose issues.</p>
+            <div class="overflow-x-auto rounded-lg shadow-inner">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Command</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>ros2 doctor</code></td>
+                            <td>Diagnoses common issues in your ROS 2 environment.</td>
+                            <td><pre><code>ros2 doctor</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>ros2 doctor --report</code></td>
+                            <td>Provides a detailed report of your ROS 2 setup.</td>
+                            <td><pre><code>ros2 doctor --report</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>rqt_graph</code></td>
+                            <td>Visualizes the ROS 2 computation graph (nodes, topics, services, actions).</td>
+                            <td><pre><code>rqt_graph</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>rqt_console</code></td>
+                            <td>A GUI tool for viewing and filtering `rosout` (log) messages.</td>
+                            <td><pre><code>rqt_console</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>ros2 topic echo /rosout</code></td>
+                            <td>Streams all log messages from nodes to your terminal.</td>
+                            <td><pre><code>ros2 topic echo /rosout</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>ros2 param set /&lt;node_name&gt; logger_levels.&lt;logger_name&gt; DEBUG</code></td>
+                            <td>Changes the logging level of a specific logger on a running node.</td>
+                            <td><pre><code>ros2 param set /my_node logger_levels.rclpy DEBUG</code></pre></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
         <!-- Launching Section -->
-        <div class="section-container">
-            <div class="section-header" onclick="toggleSection('launching')">
-                <h2 class="text-2xl font-semibold">8. Launching (`ros2 launch`)</h2>
-                <span class="arrow text-2xl">&#9654;</span>
-            </div>
-            <div id="launching-content" class="section-content">
-                <p class="mb-4 text-gray-700">Launch files are used to start multiple ROS 2 nodes and configure their parameters in a structured way.</p>
-                <div class="overflow-x-auto rounded-lg shadow-inner">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Command</th>
-                                <th>Description</th>
-                                <th>Example</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>ros2 launch &lt;pkg_name&gt; &lt;launch_file&gt;</code></td>
-                                <td>Executes a launch file (e.g., Python, XML, YAML).</td>
-                                <td><pre><code>ros2 launch turtlesim_node turtlesim_node.launch.py</code></pre></td>
-                            </tr>
-                            <tr>
-                                <td><code>ros2 launch &lt;pkg_name&gt; &lt;launch_file&gt; &lt;arg_name&gt;:=&lt;value&gt;</code></td>
-                                <td>Executes a launch file with overridden arguments.</td>
-                                <td><pre><code>ros2 launch nav2_bringup navigation_launch.py use_sim_time:=true</code></pre></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+        <div id="launching-content" class="section-content">
+            <h2 class="text-2xl font-semibold">8. Launching (`ros2 launch`)</h2>
+            <p class="mb-4 text-gray-700">Launch files are used to start multiple ROS 2 nodes and configure their parameters in a structured way.</p>
+            <div class="overflow-x-auto rounded-lg shadow-inner">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Command</th>
+                            <th>Description</th>
+                            <th>Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>ros2 launch &lt;pkg_name&gt; &lt;launch_file&gt;</code></td>
+                            <td>Executes a launch file (e.g., Python, XML, YAML).</td>
+                            <td><pre><code>ros2 launch turtlesim_node turtlesim_node.launch.py</code></pre></td>
+                        </tr>
+                        <tr>
+                            <td><code>ros2 launch &lt;pkg_name&gt; &lt;launch_file&gt; &lt;arg_name&gt;:=&lt;value&gt;</code></td>
+                            <td>Executes a launch file with overridden arguments.</td>
+                            <td><pre><code>ros2 launch nav2_bringup navigation_launch.py use_sim_time:=true</code></pre></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
         <!-- Important Considerations Section -->
-        <div class="section-container">
-            <div class="section-header" onclick="toggleSection('important_considerations')">
-                <h2 class="text-2xl font-semibold">Important Considerations</h2>
-                <span class="arrow text-2xl">&#9654;</span>
-            </div>
-            <div id="important_considerations-content" class="section-content">
-                <ul class="list-disc pl-5 mb-4 text-gray-700">
-                    <li class="mb-2"><strong>Sourcing:</strong> Always remember to <code>source</code> your ROS 2 environment (<code>/opt/ros/&lt;distro&gt;/setup.bash</code> and <code>~/your_ws/install/setup.bash</code>) in every new terminal.</li>
-                    <li class="mb-2"><strong>ROS_DOMAIN_ID:</strong> Ensure all nodes and CLI tools are operating in the same <code>ROS_DOMAIN_ID</code> for proper discovery. (<code>export ROS_DOMAIN_ID=&lt;ID&gt;</code>)</li>
-                    <li class="mb-2"><strong>DDS Implementation:</strong> The default DDS (Fast DDS) works for most cases, but sometimes switching to another (e.g., Cyclone DDS) can resolve network discovery issues.</li>
-                    <li class="mb-2"><strong>Tab Completion:</strong> Enable tab completion for <code>ros2</code> commands for a much smoother workflow (often set up during ROS 2 installation, or via <code>source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash</code>).</li>
-                </ul>
-            </div>
+        <div id="important_considerations-content" class="section-content">
+            <h2 class="text-2xl font-semibold">Important Considerations</h2>
+            <ul class="list-disc pl-5 mb-4 text-gray-700">
+                <li class="mb-2"><strong>Sourcing:</strong> Always remember to <code>source</code> your ROS 2 environment (<code>/opt/ros/&lt;distro&gt;/setup.bash</code> and <code>~/your_ws/install/setup.bash</code>) in every new terminal.</li>
+                <li class="mb-2"><strong>ROS_DOMAIN_ID:</strong> Ensure all nodes and CLI tools are operating in the same <code>ROS_DOMAIN_ID</code> for proper discovery. (<code>export ROS_DOMAIN_ID=&lt;ID&gt;</code>)</li>
+                <li class="mb-2"><strong>DDS Implementation:</strong> The default DDS (Fast DDS) works for most cases, but sometimes switching to another (e.g., Cyclone DDS) can resolve network discovery issues.</li>
+                <li class="mb-2"><strong>Tab Completion:</strong> Enable tab completion for <code>ros2</code> commands for a much smoother workflow (often set up during ROS 2 installation, or via <code>source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash</code>).</li>
+            </ul>
         </div>
-
     </div>
 
     <script>
-        function toggleSection(sectionId) {
-            const content = document.getElementById(sectionId + '-content');
-            const arrow = content.previousElementSibling.querySelector('.arrow');
-
-            // Collapse all other expanded sections first
-            document.querySelectorAll('.section-content.expanded').forEach(item => {
-                if (item.id !== content.id) {
-                    item.classList.remove('expanded');
-                    item.previousElementSibling.querySelector('.arrow').classList.remove('rotate');
-                    item.style.maxHeight = '0'; // Explicitly collapse
-                    item.style.paddingTop = '0';
-                    item.style.paddingBottom = '0';
-                }
-            });
-
-            // Toggle the clicked section
-            if (content.classList.contains('expanded')) {
-                content.classList.remove('expanded');
-                arrow.classList.remove('rotate');
-                content.style.maxHeight = '0';
-                content.style.paddingTop = '0';
-                content.style.paddingBottom = '0';
-            } else {
-                content.classList.add('expanded');
-                arrow.classList.add('rotate');
-                // Set max-height to scroll height to allow smooth transition
-                content.style.maxHeight = content.scrollHeight + 'px'; 
-                content.style.paddingTop = '1.75rem';
-                content.style.paddingBottom = '1.75rem';
-            }
-        }
-
-        // Initialize all sections as collapsed and set max-height to 0
         document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.section-content').forEach(content => {
-                content.style.maxHeight = '0';
-                content.style.paddingTop = '0';
-                content.style.paddingBottom = '0';
+            const sidebarItems = document.querySelectorAll('.sidebar-item');
+            const contentSections = document.querySelectorAll('.section-content');
+
+            // Function to show a specific section and activate its sidebar item
+            function showSection(sectionId) {
+                // Deactivate all sidebar items and hide all content sections
+                sidebarItems.forEach(item => item.classList.remove('active'));
+                contentSections.forEach(section => section.classList.remove('active'));
+
+                // Activate the clicked sidebar item
+                const activeItem = document.querySelector(`.sidebar-item[data-section="${sectionId}"]`);
+                if (activeItem) {
+                    activeItem.classList.add('active');
+                }
+
+                // Show the corresponding content section
+                const activeContent = document.getElementById(sectionId + '-content');
+                if (activeContent) {
+                    activeContent.classList.add('active');
+                    // Scroll to the top of the content section if needed
+                    activeContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+
+            // Add click listeners to sidebar items
+            sidebarItems.forEach(item => {
+                item.addEventListener('click', (event) => {
+                    event.preventDefault(); // Prevent default link behavior
+                    const sectionId = event.target.dataset.section;
+                    showSection(sectionId);
+                });
             });
+
+            // Initially show the first section (Nodes)
+            showSection('nodes');
         });
     </script>
 </body>
